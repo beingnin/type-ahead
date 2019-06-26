@@ -102,7 +102,7 @@
                     }
                     $(_container).find('.type-ahead-search-result-container').append(box).show();
                 };
-                $(document).on('keydown', _binded, function (e) {
+                $(document).off('keydown.type-ahead', _binded).on('keydown.type-ahead', _binded, function (e) {
                     var key = e.which || e.keyCode;
                     let focused = $(_container).find('.type-ahead-search-result-item.is-focused');
                     var searchBox = $(_container).find(".type-ahead-search-result-lists");
@@ -144,7 +144,12 @@
                         if (key === 8) {//if user pressed Backspace remove last tag
                             var val = $(_binded).val();
                             if (!val) {
-                                $(_container).find('.type-ahead-tag-item:last').remove();
+                                var tag = $(_container).find('.type-ahead-tag-item:last');
+                                var d = tag.data('item');
+                                tag.remove();
+                                if (typeof _onRemove === 'function') {
+                                    _onRemove(d);
+                                }
                                 return;
                             }
                         }
@@ -208,7 +213,7 @@
                     }
                 };
 
-                $(document).on('click', _container + ' .type-ahead-search-result-item', function (e) {
+                $(document).off('click.type-ahead', _container + ' .type-ahead-search-result-item').on('click.type-ahead', _container + ' .type-ahead-search-result-item', function (e) {
                     e.stopPropagation();
                     var underlyingdata = $(this).data('objectkey');
                     var tags = $(_container).find('.type-ahead-tag-item');
@@ -230,23 +235,23 @@
                     }
                     $(_binded).focus();
                 });
-                $(document).on('click', _container + ' .type-ahead-tag-remove', function (e) {
+                $(document).off('click.type-ahead', _container + ' .type-ahead-tag-remove').on('click.type-ahead', _container + ' .type-ahead-tag-remove', function (e) {
                     e.stopPropagation();
                     if (_disabled) return;
-                    $(this).closest('.type-ahead-tag-item').remove();
                     var d = $(this).data('item');
+                    $(this).closest('.type-ahead-tag-item').remove();
                     if (typeof _onRemove === 'function') {
                         _onRemove(d);
                     }
                 });
-                $(document).on('click', _container, function (e) {
+                $(document).off('click.type-ahead', _container).on('click.type-ahead', _container, function (e) {
                     e.stopPropagation();
                     if (_disabled) return;
                     $('.type-ahead-search-result-container').html('').hide();
                     $(_binded).focus();
                     _auto && $(_binded).trigger('keydown');
                 });
-                $(window).click(function () {
+                $(window).off('click.type-ahead').on('click.type-ahead',function () {
                     $(_container).find('.type-ahead-search-result-container').html('').hide();
                     $(_binded).val('');
                 });
@@ -330,6 +335,18 @@
                     },
                     get length() {
                         return $(_container).find('.type-ahead-tag-item').length;
+                    },
+                    destroy: function () {
+                        //unbinding events
+                        $(document).off('keydown.type-ahead', _binded);
+                        $(document).off('click.type-ahead', _container + ' .type-ahead-search-result-item');
+                        $(document).off('click.type-ahead', _container + ' .type-ahead-tag-remove');
+                        $(document).off('click.type-ahead', _container);
+                        $(window).off('click.type-ahead');
+
+                        //clearing selections if any
+                        $(_container).find('.type-ahead-tag-item').remove();
+                        $(_binded).data('lastSelected',null);
                     }
                 };
             },
