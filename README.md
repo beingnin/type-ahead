@@ -9,6 +9,9 @@ Type ahead library with a lot of options including templates, limit, duplicate r
 # Examples #
 
 > Simple Usage 
+```html
+<input type="text" id="txt-example-1" class="form-control" placeholder="type country name" />
+```
 ```javascript
 var ex1 = window.typeAhead.init({
             bind: 'txt-example-1',
