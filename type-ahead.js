@@ -176,21 +176,24 @@
                             //timeout wrapper for waiting for user to finish typing
                             _timer = setTimeout(function () {
                                 //building url
-                                var _url = options.url || '/Account/Police/search';
-                                for (var i = 0; i < _params.length; i++) {
-                                    if (i === 0) _url += '?';
-                                    _url += _params[i].name + '=' + _params[i].value() + '&';
+                                var _url = options.url;
+                                if (_params && typeof _params === 'object') {
+                                    for (var i = 0; i < _params.length; i++) {
+                                        if (i === 0) _url += '?';
+                                        _url += _params[i].name + '=' + _params[i].value() + '&';
+                                    }
                                 }
+                                
                                 //fetch data
-                                _xhrRequest = app.Provider.GetAsync({
+                                _xhrRequest = $.ajax({
                                     url: _url,
+                                    Method: 'GET',
+                                    dataType: 'JSON',
                                     success: function (data) {
                                         if (!data) return;
                                         _renderHtml(data.Data);
                                     }
                                 });
-
-
                             }, _timeout);
                         }
                     }
