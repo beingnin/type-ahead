@@ -10,24 +10,10 @@ Type ahead library with a lot of options including templates, limit, duplicate r
 
 > Simple Usage 
 ```javascript
-  var products = new Bloodhound({
-    datumTokenizer: function(d) {return d.name; },
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'http://localhost/dh/js/products.json'
-
-
-  });
-
-
-  products.initialize();
-
-  $('.test1').typeahead({
-    highlight: true
-  },
-  {
-    name: 'products',
-    displayKey: 'num',
-    source: states.ttAdapter()
-
-  });
+var ex1 = window.typeAhead.init({
+            bind: 'txt-example-1',
+            source: ['India', 'USA', 'China', 'Australia', 'South Korea', 'Japan', 'United kingdom'],
+            template: x => `<p>${x}</p>`,
+            tagMode: true,
+        });
 ```
