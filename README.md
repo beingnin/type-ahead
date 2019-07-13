@@ -1,4 +1,4 @@
-# type-ahead #
+# Type-ahead #
 Type ahead library with a lot of options including templates, limit, duplicate removal
 
 ## Dependencies ##
@@ -6,7 +6,7 @@ Type ahead library with a lot of options including templates, limit, duplicate r
 - Jquery v1.0 or above
 - Bootstrap3 or above
 
-# Examples #
+## Examples ##
 
 > Simple Usage 
 ```html
