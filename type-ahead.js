@@ -14,11 +14,11 @@
                 var _method = options.method || 'GET';
                 var _listingTemplate = options.template;
                 var _timer, _xhrRequest = null;
-                var _label = "NameEN";
+                var _label = undefined;
                 var _limit = 9999;
                 var _disabled = false;
                 var _afterTag = null;
-                var _key = options.key !== null && options.key !== undefined ? options.key : "PoliceId";
+                var _key = options.key;
                 var _duplicate = typeof options.duplicate === 'boolean' ? options.duplicate : true;
                 var _auto = typeof options.auto === 'boolean' ? options.auto : false;
                 var _source = options.source;
@@ -26,9 +26,10 @@
                 var _focusedColor = options._focusedColor || '#f3f5fc';
                 if (!$(_binded)[0]) { console.warn('Could not bind type ahead in provided element(' + _binded + ')'); return; }
                 var _warnings = function () {
-                    if (app.Debug.HasDuplicate(options.bind)) {
-                        console.warn('Binded object(' + _binded + ') has multiple findings in the DOM. Please use a unique binding preferably ID attribute');
-                    }
+                    console.warn('Duplicate check needed to implement');
+                    //if (app.Debug.HasDuplicate(options.bind)) {
+                    //    console.warn('Binded object(' + _binded + ') has multiple findings in the DOM. Please use a unique binding preferably ID attribute');
+                    //}
                 };
                 if (options.tag) {
                     _label = options.tag.label;
@@ -50,11 +51,10 @@
 
 
                 const _renderHtml = function (array) {
-                    var lang = app.Util.Lang();
                     $(_container).find('.type-ahead-search-result-container').html('').hide();
                     var box = $('<ul class="type-ahead-search-result-lists"></ul>');
                     if (!array || array.length < 1) {
-                        box.html('<li class="type-ahead-search-result-empty"><p style="text-align: center;color: #ff6f6f;padding: 1.3em 0 0.5em;">' + (lang === 'en' ? 'No result found' : 'No result found-ar') + '</p></li>');
+                        box.html('<li class="type-ahead-search-result-empty"><p style="text-align: center;color: #ff6f6f;padding: 1.3em 0 0.5em;">No result found</p></li>');
                         $(_container).find('.type-ahead-search-result-container').append(box).show();
                         //setTimeout(function () {
                         //    $(_container).find('.type-ahead-search-result-container').html('').hide();
@@ -91,7 +91,9 @@
                         else {
                             //html += '<div class="media"> <div class="media-body"> <h4 class="media-heading">' + item.NameEN + '</h4><ul class="media-list"> <li><span class="app-icon icon-military-icon-01 icon-yellow"></span>' + item.MilitaryNumber + '</li> <li><span class="app-icon icon-Department"></span>' + item.Designation.EnglishName + '</li> <li><span class="app-icon icon-Designation"></span>' + item.Department.NameEn + '</li> </ul> </div> </div>';
 
-                            html += '<div class="type-ahead-default__list-item"><div><h5 class="type-ahead-default__list-item--title">' + (lang === 'en' ? item.NameEN : item.NameAR) + '</h5><small class="type-ahead-default__list-item--dept"><span class="icon-designation app-icon app-head-icon-1"></span>' + (lang === 'en' ? item.Department.NameEn : item.Department.NameAr) + '</small></div><div><span class="app-icon icon-military-icon-01 icon-yellow"></span> <span class="type-ahead-default__list-item--military">' + item.MilitaryNumber + '</span></div></div>';
+                            //html += '<div class="type-ahead-default__list-item"><div><h5 class="type-ahead-default__list-item--title">' + (lang === 'en' ? item.NameEN : item.NameAR) + '</h5><small class="type-ahead-default__list-item--dept"><span class="icon-designation app-icon app-head-icon-1"></span>' + (lang === 'en' ? item.Department.NameEn : item.Department.NameAr) + '</small></div><div><span class="app-icon icon-military-icon-01 icon-yellow"></span> <span class="type-ahead-default__list-item--military">' + item.MilitaryNumber + '</span></div></div>';
+                            console.warn('Could not find a suitable template for listing results');
+                            return;
 
                         }
 
@@ -195,15 +197,17 @@
                 });
 
                 var _renderTag = function (underlyingdata) {
-
                     if (_tagMode) {
                         var tag = null;
                         if (typeof _label === 'function') {
 
                             tag = $('<span class="type-ahead-tag-item">' + _label(underlyingdata) + '<a href="#" class="type-ahead-tag-remove">x</a></span>');
                         }
-                        else {
+                        else if (_label){
                             tag = $('<span class="type-ahead-tag-item">' + underlyingdata[_label] + '<a href="#" class="type-ahead-tag-remove">x</a></span>');
+                        }
+                        else {
+                            tag = $('<span class="type-ahead-tag-item">' + underlyingdata + '<a href="#" class="type-ahead-tag-remove">x</a></span>');
                         }
                         tag.data('item', underlyingdata);
                         $(_binded).before(tag);
