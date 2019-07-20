@@ -20,3 +20,20 @@ var ex1 = window.typeAhead.init({
             tagMode: true,
         });
 ```
+> From ajax source 
+```html
+<input type="text" id="txt-example-2" class="form-control" placeholder="type country name" />
+```
+```javascript
+        var ex2 = window.typeAhead.init({
+            bind: 'txt-example-2',
+            url: '/countries.json',
+            template: function (x) {
+                return `<p>${x.name} - ${x.code}</p>`;
+            },
+            tagMode: true,
+            tag: {
+                label: 'name'
+            }
+        });
+```
