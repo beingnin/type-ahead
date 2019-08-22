@@ -1,5 +1,14 @@
 # Type-ahead #
 Type ahead library with a lot of options including templates, limit, duplicate removal
+## Features ##
+
+<ul>
+            <li><kbd>Strong templating</kbd></li>
+            <li><kbd>Client side filtering</kbd></li>
+            <li><kbd>Limit selections</kbd></li>
+            <li><kbd>Duplicate removal</kbd></li>
+            <li><kbd>Respond to events</kbd></li>
+</ul>
 
 ## Dependencies ##
 
