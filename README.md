@@ -34,11 +34,13 @@ var ex1 = window.typeAhead.init({
 <input type="text" id="txt-example-2" class="form-control" placeholder="type country name" />
 ```
 ```javascript
+                //Ajax source
         var ex2 = window.typeAhead.init({
             bind: 'txt-example-2',
-            url: '/countries.json',
+            url: 'https://restcountries.eu/rest/v2/name/{#countryname#}',
+            params: [{ name: 'countryname', value:()=>$('#txt-example-2').val()}],
             template: function (x) {
-                return `<p>${x.name} - ${x.code}</p>`;
+                return `<p>${x.name}</p>`;
             },
             tagMode: true,
             tag: {
