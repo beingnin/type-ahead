@@ -34,7 +34,6 @@ var ex1 = window.typeAhead.init({
 <input type="text" id="txt-example-2" class="form-control" placeholder="type country name" />
 ```
 ```javascript
-                //Ajax source
         var ex2 = window.typeAhead.init({
             bind: 'txt-example-2',
             url: 'https://restcountries.eu/rest/v2/name/{#countryname#}',
@@ -48,3 +47,8 @@ var ex1 = window.typeAhead.init({
             }
         });
 ```
+<dl>
+  <dt>Note</dt>
+  <dd>If the parameter is an URI component, please make sure that the parameter name provided in the <b>params</b> options is also provided as a placeholder in the url enclosed with <kbd>{#</kbd> and <kbd>#}</kbd></dd>
+
+</dl>
