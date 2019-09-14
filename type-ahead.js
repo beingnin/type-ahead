@@ -142,7 +142,6 @@
                     }
                     else {
                         //all other keys
-
                         if (key === 8) {//if user pressed Backspace remove last tag
                             var val = $(_binded).val();
                             if (!val) {
@@ -191,7 +190,10 @@
                                     dataType: 'JSON',
                                     success: function (data) {
                                         if (!data) return;
-                                        _renderHtml(data.Data);
+                                        _renderHtml(data);
+                                    },
+                                    error: function (error) {
+                                        console.error(error);
                                     }
                                 });
                             }, _timeout);

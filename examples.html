@@ -27,6 +27,11 @@
                 <input type="text" id="txt-example-2" class="form-control" placeholder="type country name" />
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-4 col-xs-offset-4">
+                <input type="text" id="txt-example-3" class="form-control" placeholder="type country name" />
+            </div>
+        </div>
     </div>
 
     <script>
@@ -40,11 +45,31 @@
 
 
         //Ajax source
-        var ex22= window.typeAhead.init({
+        var ex2 = window.typeAhead.init({
             bind: 'txt-example-2',
-            url:'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json',
-            template: x => `<p>${x}</p>`,
+            url: '/countries.json',
+            template: function (x) {
+                return `<p>${x.name} - ${x.code}</p>`;
+            },
             tagMode: true,
+            tag: {
+                label: 'name'
+            }
+        });
+
+        //Use the selected item for subsequent functioning
+        var ex2 = window.typeAhead.init({
+            bind: 'txt-example-3',
+            url: '/countries.json',
+            template: function (x) {
+                return `<p>${x.name} - ${x.code}</p>`;
+            },
+            tagMode: true,
+            tag: {
+                label: 'name'
+            },
+            onSelect:item=>alert(`You selected ${item.name}` )
+
         });
     </script>
 </body>
